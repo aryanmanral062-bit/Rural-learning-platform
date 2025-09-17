@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rural Education Portal / ग्रामीण शिक्षा पोर्टल</title>
+<style>
+body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #fff8e1; color: #333; font-size: 16px; }
+header { background: linear-gradient(135deg, #0d47a1, #42a5f5); color: white; padding: 25px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+header h1 { text-shadow: 1px 1px 3px rgba(0,0,0,0.3); margin: 0; }
+.container { display: flex; flex-wrap: wrap; min-height: 90vh; padding: 10px; }
+.left { flex: 1; min-width: 300px; background: linear-gradient(180deg, #0d47a1, #42a5f5); display: flex; align-items: center; justify-content: center; color: white; flex-direction: column; padding: 20px; text-align: center; border-radius: 15px; box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+.right { flex: 1; min-width: 300px; background: #e3f2fd; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 15px; box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+button { margin: 10px; padding: 14px 24px; border: none; border-radius: 10px; background: #0d47a1; color: white; font-size: 16px; cursor: pointer; transition: 0.3s; }
+button:hover { background: linear-gradient(90deg, #42a5f5, #0d47a1); transform: scale(1.05); }
+input { padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #42a5f5; width: 80%; }
+h2 { margin-top: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+.motivation { margin-top: 20px; font-size: 18px; font-style: italic; color: #ff3b3b; text-align: center; }
+img.logo { width: 130px; margin-bottom: 20px; transition: transform 0.3s; }
+img.logo:hover { transform: scale(1.1); }
+.slider { width: 200px; margin: 10px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌾 Rural Education Portal / ग्रामीण शिक्षा पोर्टल</h1>
+  <p>For Classes 6 to 12 – Learn, Practice & Grow / कक्षा 6 से 12 तक – सीखें, अभ्यास करें और आगे बढ़ें</p>
+</header>
+
+<div class="container">
+
+  <!-- Left illustration -->
+  <div class="left">
+    <img src="Education.jpg" alt="Logo" class="logo">
+    <h2>📚 Learn With Stories / कहानियों से सीखें</h2>
+    <p>Simple lessons, quizzes, and fun learning.<br>सरल पाठ, प्रश्नोत्तरी और मज़ेदार पढ़ाई।</p>
+  </div>
+
+  <!-- Right navigation -->
+  <div class="right">
+
+    <!-- Name input -->
+    <h2>Enter Your Name / अपना नाम लिखें</h2>
+    <input type="text" id="studentName" placeholder="Your Name / अपना नाम">
+    <button onclick="startRecognition()">🎤 Speak Name / नाम बोलें</button>
+    <button onclick="saveName()">Save & Continue / सेव करें और आगे बढ़ें</button>
+
+    <!-- Class selection -->
+    <h2>Select Your Class / अपनी कक्षा चुनें</h2>
+    <button onclick="goToLesson('lesson_class6.html')">Class 6 / कक्षा 6</button>
+    <button onclick="goToLesson('lesson_class12.html')">Class 12 / कक्षा 12</button>
+
+    <!-- Quiz selection -->
+    <h2>📝 Take a Quiz / प्रश्नोत्तरी हल करें</h2>
+    <button onclick="goToLesson('quiz_class6.html')">Quiz Class 6 / कक्षा 6 प्रश्नोत्तरी</button>
+    <button onclick="goToLesson('quiz_class12.html')">Quiz Class 12 / कक्षा 12 प्रश्नोत्तरी</button>
+
+    <!-- Teacher / Parent Mode -->
+    <h2>👩‍🏫 Teacher / Parent Mode / शिक्षक / अभिभावक मोड</h2>
+    <button onclick="location.href='teacher.html'">Enter Teacher Mode / शिक्षक मोड में जाएं</button>
+
+    <!-- Font size adjuster -->
+    <div style="margin-top:20px; text-align:center;">
+      <button onclick="adjustFontSize(1)">A+</button>
+      <button onclick="adjustFontSize(-1)">A-</button><br>
+      <input type="range" min="12" max="30" value="16" class="slider" id="fontSlider">
+      <p style="font-size:14px; margin-top:8px; color:#333;">
+        🔎 <b>Use A+ / A- buttons or move the slider to adjust text size.</b><br>
+        🔎 <b>A+ / A- दबाकर या स्लाइडर खिसकाकर लिखाई का आकार बदलें।</b>
+      </p>
+    </div>
+
+    <!-- Motivation -->
+    <div class="motivation" id="motivationText"></div>
+  </div>
+</div>
+
+<script>
+  // Motivation quotes
+  const quotes = [
+    "Keep trying, learning never stops! / कोशिश करते रहो, सीखना कभी नहीं रुकता।",
+    "सीखना ही असली शक्ति है। / Learning is true power."
+  
+  ];
+  document.getElementById("motivationText").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+  // Save student name
+  function saveName() {
+    const name = document.getElementById("studentName").value.trim();
+    if (!name) {
+      alert("Please enter your name! / कृपया अपना नाम लिखें!");
+      return;
+    }
+    localStorage.setItem("studentName", name);
+    alert("Welcome " + name + "! / स्वागत है " + name + " जी!");
+  }
+
+  // Navigate to lesson/quiz page
+  function goToLesson(page) {
+    const name = localStorage.getItem("studentName");
+    if(!name) {
+      alert("Please enter your name first! / कृपया पहले अपना नाम लिखें!");
+      return;
+    }
+    location.href = page;
+  }
+
+  // Font size adjuster (buttons)
+  function adjustFontSize(change) {
+    document.body.style.fontSize =
+      (parseInt(window.getComputedStyle(document.body).fontSize) + change) + "px";
+  }
+
+  // Font size adjuster (slider)
+  const fontSlider = document.getElementById("fontSlider");
+  fontSlider.addEventListener("input", function() {
+    document.body.style.fontSize = this.value + "px";
+  });
+
+  // Voice recognition for name input
+  function startRecognition() {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert("Speech recognition not supported in this browser. / यह ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।");
+      return;
+    }
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "hi-IN"; // for Hindi input
+    recognition.onresult = function(event) {
+      document.getElementById("studentName").value = event.results[0][0].transcript;
+    };
+    recognition.start();
+  }
+</script>
+
+</body>
+</html>

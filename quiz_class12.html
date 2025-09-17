@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class 12 Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff3e0; padding: 20px; }
+    h1 { text-align: center; color: #e65100; }
+    .quiz-box { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 8px; background: #e65100; color: white; cursor: pointer; }
+    button:hover { background: #bf360c; }
+    .result { margin-top: 15px; font-weight: bold; }
+    .stars { margin-top: 10px; font-size: 20px; color: #ff9800; }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h1>Class 12 Chemistry Quiz / कक्षा 12 रसायन शास्त्र प्रश्नोत्तरी</h1>
+    <div id="quiz"></div>
+    <div class="result" id="result"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        q: "Which gas is released when zinc reacts with dilute HCl? / जब जिंक पतला HCl से अभिक्रिया करता है तो कौन सी गैस निकलती है?",
+        options: ["a) Oxygen", "b) Hydrogen", "c) Carbon dioxide"],
+        correct: "b",
+        explanation: "Zn + 2HCl → ZnCl₂ + H₂ ↑ / Hydrogen gas is released."
+      },
+      {
+        q: "What is the hybridization of carbon in methane (CH₄)? / मीथेन (CH₄) में कार्बन का हाइब्रिडाइजेशन क्या है?",
+        options: ["a) sp³", "b) sp²", "c) sp"],
+        correct: "a",
+        explanation: "Methane has tetrahedral geometry with sp³ hybridization."
+      }
+    ];
+
+    let index = 0, stars = 0;
+
+    function loadQuestion() {
+      if (index < quizData.length) {
+        const q = quizData[index];
+        document.getElementById("quiz").innerHTML = `
+          <p><b>${q.q}</b></p>
+          ${q.options.map(opt => `
+            <label>
+              <input type="radio" name="option" value="${opt[0]}"> ${opt}
+            </label><br/>
+          `).join("")}
+          <button onclick="checkAnswer()">Submit / जमा करें</button>
+        `;
+        document.getElementById("result").innerHTML = "";
+      } else {
+        document.getElementById("quiz").innerHTML = `<h2>✅ Quiz Complete! 🎉 <br/> Final Stars: ${stars} ⭐</h2>
+        <button onclick="location.href='index.html'">🏠 Back to Home / मुख्य पृष्ठ पर जाएं</button>`;
+      }
+    }
+
+    function checkAnswer() {
+      const q = quizData[index];
+      const answer = document.querySelector('input[name="option"]:checked');
+      if (!answer) { 
+        alert("Please select an option! / कृपया एक विकल्प चुनें!"); 
+        return; 
+      }
+      if (answer.value === q.correct) {
+        stars++;
+        document.getElementById("result").innerHTML = "✅ Correct! / सही!<br/>" + q.explanation;
+      } else {
+        document.getElementById("result").innerHTML = "❌ Wrong! / गलत!<br/>" + q.explanation;
+      }
+      document.getElementById("stars").innerText = "⭐ Stars: " + stars;
+      index++;
+      setTimeout(loadQuestion, 2000);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>

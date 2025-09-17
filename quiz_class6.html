@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class 6 Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9fbe7; padding: 20px; }
+    h1 { text-align: center; color: #2e7d32; }
+    .quiz-box { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 8px; background: #2e7d32; color: white; cursor: pointer; }
+    button:hover { background: #1b5e20; }
+    .result { margin-top: 15px; font-weight: bold; }
+    .stars { margin-top: 10px; font-size: 20px; color: #ff9800; }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h1>Class 6 Quiz / कक्षा 6 प्रश्नोत्तरी</h1>
+    <div id="quiz"></div>
+    <div class="result" id="result"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        q: "What is the capital of India? / भारत की राजधानी क्या है?",
+        options: ["a) Mumbai", "b) New Delhi", "c) Kolkata"],
+        correct: "b",
+        explanation: "New Delhi is the capital of India. / नई दिल्ली भारत की राजधानी है।"
+      },
+      {
+        q: "Which planet is called the Red Planet? / किस ग्रह को लाल ग्रह कहा जाता है?",
+        options: ["a) Earth", "b) Mars", "c) Venus"],
+        correct: "b",
+        explanation: "Mars looks red due to iron oxide. / मंगल ग्रह लाल दिखता है क्योंकि उस पर लौह ऑक्साइड है।"
+      }
+    ];
+
+    let index = 0, stars = 0;
+
+    function loadQuestion() {
+      if (index < quizData.length) {
+        const q = quizData[index];
+        document.getElementById("quiz").innerHTML = `
+          <p><b>${q.q}</b></p>
+          ${q.options.map(opt => `
+            <label>
+              <input type="radio" name="option" value="${opt[0]}"> ${opt}
+            </label><br/>
+          `).join("")}
+          <button onclick="checkAnswer()">Submit / जमा करें</button>
+        `;
+        document.getElementById("result").innerHTML = "";
+      } else {
+        document.getElementById("quiz").innerHTML = `<h2>✅ Quiz Complete! 🎉 <br/> Final Stars: ${stars} ⭐</h2>
+        <button onclick="location.href='index.html'">🏠 Back to Home / मुख्य पृष्ठ पर जाएं</button>`;
+      }
+    }
+
+    function checkAnswer() {
+      const q = quizData[index];
+      const answer = document.querySelector('input[name="option"]:checked');
+      if (!answer) { 
+        alert("Please select an option! / कृपया एक विकल्प चुनें!"); 
+        return; 
+      }
+      if (answer.value === q.correct) {
+        stars++;
+        document.getElementById("result").innerHTML = "✅ Correct! / सही!<br/>" + q.explanation;
+      } else {
+        document.getElementById("result").innerHTML = "❌ Wrong! / गलत!<br/>" + q.explanation;
+      }
+      document.getElementById("stars").innerText = "⭐ Stars: " + stars;
+      index++;
+      setTimeout(loadQuestion, 2000);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
