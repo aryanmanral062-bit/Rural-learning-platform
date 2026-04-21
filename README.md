@@ -30,7 +30,6 @@ Features
 Tech Stack
 
 - HTML5
-- CSS3
 
 
 Future Scope
